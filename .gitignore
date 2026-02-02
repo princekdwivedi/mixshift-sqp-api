@@ -8,3 +8,4 @@ database
 /logs
 package-lock.json
 coverage/
+.env.prod
