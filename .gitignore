@@ -6,5 +6,6 @@ database
 /reports/
 /examples/
 /logs
+/data/
 package-lock.json
 coverage/

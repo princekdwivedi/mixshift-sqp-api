@@ -16,9 +16,11 @@ const fs = require('fs');
 const path = require('path');
 const logger = require('./logger.utils');
 const dates = require('./dates.utils');
+const envConfig = require('../config/env.config');
+const LOG_DIR = process.env.LOG_DIR || envConfig.LOG_DIR || path.join(process.cwd(), 'logs');
 class APILogger {
     constructor() {
-        this.baseLogPath = path.join(process.cwd(), 'logs', 'api_logs');
+        this.baseLogPath = path.join(LOG_DIR, 'api_logs');
         this.ensureLogDirectory(this.baseLogPath);
     }
 
@@ -595,7 +597,7 @@ class APILogger {
             }
 
             // 3. Clean API report exports (reports/<date>/<user>/<seller>/<amazon>/)
-            const reportsBasePath = path.join(process.cwd(), 'reports');
+            const reportsBasePath = envConfig.REPORT_PATH || path.join(process.cwd(), 'reports');
             if (fs.existsSync(reportsBasePath)) {
                 logger.info('\n📂 Cleaning API report exports...');
 

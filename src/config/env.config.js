@@ -63,6 +63,9 @@ async function loadAwsSecrets(options = {}) {
   return secretsLoadPromise;
 }
 
+// Data directory base - consolidated writable path for single-volume mount
+const dataPath = env('DATA_PATH') || path.join(process.cwd(), 'data');
+
 /**
  * Base Configuration Object
  */
@@ -100,9 +103,15 @@ let config = {
   // Logging
   LOG_LEVEL: env('LOG_LEVEL', 'info'),
 
+  // Data directory and file paths (consolidated for single-volume mount)
+  DATA_PATH: dataPath,
+  STORAGE_BASE: dataPath,
+  LOG_DIR: env('LOG_DIR') || path.join(dataPath, 'logs'),
+  UPLOAD_PATH: env('UPLOAD_PATH') || path.join(dataPath, 'uploads'),
+  REPORT_PATH: env('REPORT_PATH') || path.join(dataPath, 'reports'),
+
   // File Upload
   MAX_FILE_SIZE: toInt(env('MAX_FILE_SIZE', 10485760)), // 10MB
-  UPLOAD_PATH: env('UPLOAD_PATH', './uploads'),
 
   // Email
   SMTP_HOST: env('SMTP_HOST'),

@@ -6,7 +6,7 @@ const { getModel: getSqpWeekly } = require('../models/sequelize/sqpWeekly.model'
 const { getModel: getSqpMonthly } = require('../models/sequelize/sqpMonthly.model');
 const { getModel: getSqpQuarterly } = require('../models/sequelize/sqpQuarterly.model');
 const { getModel: getSqpCronDetails } = require('../models/sequelize/sqpCronDetails.model');
-const { env } = require('../config/env.config');
+const { env, REPORT_PATH } = require('../config/env.config');
 const nodeEnv = (env.NODE_ENV || 'development').toLowerCase();
 const downloadUrls = require('../models/sqp.download.urls.model');
 const { getModel: getSqpDownloadUrls } = require('../models/sequelize/sqpDownloadUrls.model');
@@ -235,9 +235,9 @@ async function saveReportJsonFile(download, jsonContent) {
         const filename = `${safeType}_${download.ReportID}_${timestamp}.json`;        
         
 		// Save to reports/<date>/<userFolder>/<sellerId>/<amazonSellerId>/
+		const reportBase = REPORT_PATH || path.join(process.cwd(), 'reports');
 		const baseDir = path.join(
-			process.cwd(),
-			'reports',
+			reportBase,
 			date,
 			userFolder,
 			String(sellerId),
